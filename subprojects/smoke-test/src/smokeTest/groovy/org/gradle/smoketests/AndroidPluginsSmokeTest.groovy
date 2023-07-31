@@ -22,6 +22,7 @@ import org.gradle.integtests.fixtures.executer.GradleContextualExecuter
 import org.gradle.integtests.fixtures.executer.IntegrationTestBuildContext
 import org.gradle.internal.reflect.validation.ValidationMessageChecker
 import org.gradle.testkit.runner.TaskOutcome
+import org.gradle.util.internal.VersionNumber
 
 import static org.gradle.internal.reflect.validation.Severity.ERROR
 
@@ -69,6 +70,9 @@ class AndroidPluginsSmokeTest extends AbstractPluginValidatingSmokeTest implemen
             expectAndroidConventionTypeDeprecationWarning(agpVersion)
             if (GradleContextualExecuter.isNotConfigCache()) {
                 expectBasePluginConventionDeprecation(agpVersion)
+            }
+            if (VersionNumber.parse(agpVersion) == VersionNumber.parse("7.3.1") && !ide) {
+                maybeExpectOrgGradleUtilGUtilDeprecation(agpVersion)
             }
         }
 
